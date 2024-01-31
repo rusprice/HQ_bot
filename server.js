@@ -18,7 +18,6 @@ ws.on('error', console.error);
 
 ws.on('close', function() {
     console.log('socket close');
-    setTimeout(connect, reconnectInterval);
 });
 
 ws.on('open', function open() {
