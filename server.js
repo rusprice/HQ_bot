@@ -8,16 +8,18 @@ function getRandomIntInclusive(min, max) {
 }
 
 function joinGame() {
-    const ws = new WebSocket('wss://play.question.house', {
-    headers: {
-        "authorization": "Bearer " + jwt.sign({ userId: getRandomIntInclusive(0,100000), username: 'bot' + getRandomIntInclusive(0,100000) }, "hihihi", { algorithm: "HS256" })
-    }
+    const ws = new WebSocket('wss://staging.question.house/ws', {
+    headers: {}
 });
 
-ws.on('error', console.error);
+ws.on('error', function(e) {
+    console.log('socket error', e);
+    setTimeout(joinGame, 1000);
+});
 
 ws.on('close', function() {
     console.log('socket close');
+    joinGame();
 });
 
 ws.on('open', function open() {
@@ -44,6 +46,6 @@ ws.on('message', function message(data) {
 });
 }
 
-for (var i = 0; i < 500; i++) {
+for (var i = 0; i < 10000; i++) {
     joinGame();
 }
