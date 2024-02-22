@@ -46,7 +46,7 @@ ws.on('message', function message(data) {
 });
 }
 
-for (var i = 0; i < 200; i++) {
+for (var i = 0; i < 500; i++) {
     joinGame();
 }
 
