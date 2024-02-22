@@ -46,8 +46,8 @@ ws.on('message', function message(data) {
 });
 }
 
-for (var i = 0; i < 500; i++) {
-    joinGame();
+for (var i = 0; i < 2000; i++) {
+    setTimeout(joinGame, 15*i);
 }
 
 var http = require('http');
