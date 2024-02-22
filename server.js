@@ -8,52 +8,59 @@ function getRandomIntInclusive(min, max) {
 }
 
 function joinGame() {
-    const ws = new WebSocket('wss://staging.question.house/ws', {
-    headers: {}
-});
+  const ws = new WebSocket("wss://staging.question.house/ws", {
+    headers: {},
+  });
 
-ws.on('error', function(e) {
-    console.log('socket error', e);
+  ws.on("error", function (e) {
+    console.log("socket error", e);
     setTimeout(joinGame, 1000);
-});
+  });
 
-ws.on('close', function() {
-    console.log('socket close');
-    joinGame();
-});
+  ws.on("close", function () {
+    console.log("socket close");
+    setTimeout(joinGame, 1000);
+  });
 
-ws.on('open', function open() {
-ws.send(JSON.stringify({
-    type: "subscribe"
-  }));
-  console.log("Connected");
-});
+  ws.on("open", function open() {
+    ws.send(
+      JSON.stringify({
+        type: "subscribe",
+      })
+    );
+    console.log("Connected");
+  });
 
-ws.on('message', function message(data) {
+  ws.on("message", function message(data) {
     try {
-        var message = JSON.parse(data);
+      var message = JSON.parse(data);
     } catch (e) {
-        console.log(data);
+      console.log(data);
     }
 
     if (message.type == "question") {
-        ws.send(JSON.stringify({
-            type: "answer",
-            answerId: message.answers[Math.floor(Math.random()*message.answers.length)].answerId
-        }));
+      ws.send(
+        JSON.stringify({
+          type: "answer",
+          answerId: message.answers[Math.floor(Math.random() * message.answers.length)].answerId,
+        })
+      );
     }
-  //console.log('received: %s', data);
-});
+    //console.log('received: %s', data);
+  });
 }
 
-for (var i = 0; i < 2000; i++) {
-    setTimeout(joinGame, 15*i);
-}
+setInterval(function () {
+  for (var i = 0; i < 10; i++) {
+    joinGame();
+  }
+}, 150);
 
-var http = require('http');
+var http = require("http");
 
-
-http.createServer(function (req, res) {
-  res.write('Hello World!'); 
-  res.end();
-}).listen(8080);
+http
+  .createServer(function (req, res) {
+    res.write("Hello World!");
+    res.end();
+  })
+  .listen(8080);
