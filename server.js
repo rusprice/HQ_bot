@@ -7,19 +7,22 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
 }
 
-function joinGame() {
+function joinGame(myid) {
+  const userId = myid || getRandomIntInclusive(1, 100000);
+  ws.userId = userId;
+
   const ws = new WebSocket("wss://staging.question.house/ws", {
-    headers: {},
+    headers: { "X-MYUID": userId },
   });
 
   ws.on("error", function (e) {
     console.log("socket error", e);
-    setTimeout(joinGame, 1000);
+    setTimeout(joinGame(ws.userId), 1000);
   });
 
-  ws.on("close", function () {
-    console.log("socket close");
-    setTimeout(joinGame, 1000);
+  ws.on("close", function (ree) {
+    console.log("socket close", ree);
+    setTimeout(joinGame(ws.userId), 1000);
   });
 
   ws.on("open", function open() {
@@ -50,11 +53,9 @@ function joinGame() {
   });
 }
 
-setInterval(function () {
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 2500; i++) {
     joinGame();
   }
-}, 150);
 
 var http = require("http");
 
