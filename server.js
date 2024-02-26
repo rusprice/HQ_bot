@@ -10,8 +10,9 @@ function getRandomIntInclusive(min, max) {
 var globalCount = 0;
 
 function joinGame(myid) {
-  if (globalCount > 69)  return;
   return function() {
+
+    if (globalCount > 69)  return;
 
   const userId = myid || getRandomIntInclusive(1, 100000);
   console.log("userId", userId);
