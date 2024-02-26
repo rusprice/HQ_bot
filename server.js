@@ -50,6 +50,8 @@ function joinGame(myid) {
       console.log(data);
     }
 
+    if (!["question", "questionClosed", "questionResult", "questionFinished", "dynamicPot", "interaction", "gameStatus", "broadcastStats"].includes(message.type)) console.log(message);
+
     if (message.type == "question") {
       ws.send(
         JSON.stringify({
