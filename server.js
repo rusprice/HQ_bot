@@ -8,12 +8,15 @@ function getRandomIntInclusive(min, max) {
 }
 
 function joinGame(myid) {
-  const userId = myid || getRandomIntInclusive(1, 100000);
-  ws.userId = userId;
+  return function() {
 
+  const userId = myid || getRandomIntInclusive(1, 100000);
+  console.log("userId", userId);
   const ws = new WebSocket("wss://staging.question.house/ws", {
-    headers: { "X-MYUID": userId },
+    headers: { "authorization": userId },
   });
+
+  ws.userId = userId;
 
   ws.on("error", function (e) {
     console.log("socket error", e);
@@ -51,10 +54,11 @@ function joinGame(myid) {
     }
     //console.log('received: %s', data);
   });
+  }
 }
 
-  for (var i = 0; i < 2500; i++) {
-    joinGame();
+  for (var i = 0; i < 1000; i++) {
+    joinGame()();
   }
 
 var http = require("http");
