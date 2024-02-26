@@ -68,7 +68,7 @@ function joinGame(myid) {
 
   setInterval(() => {
     joinGame()();
-  }, 500);
+  }, 1000);
 
 var http = require("http");
 
