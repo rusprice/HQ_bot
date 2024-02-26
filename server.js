@@ -7,7 +7,10 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
 }
 
+var globalCount = 0;
+
 function joinGame(myid) {
+  if (globalCount > 69)  return;
   return function() {
 
   const userId = myid || getRandomIntInclusive(1, 100000);
@@ -19,16 +22,19 @@ function joinGame(myid) {
   ws.userId = userId;
 
   ws.on("error", function (e) {
+    globalCount--;
     console.log("socket error", e);
     setTimeout(joinGame(ws.userId), 1000);
   });
 
   ws.on("close", function (ree) {
+    globalCount--;
     console.log("socket close", ree);
     setTimeout(joinGame(ws.userId), 1000);
   });
 
   ws.on("open", function open() {
+    globalCount++;
     ws.send(
       JSON.stringify({
         type: "subscribe",
@@ -57,9 +63,9 @@ function joinGame(myid) {
   }
 }
 
-  for (var i = 0; i < 1000; i++) {
+  setInterval(() => {
     joinGame()();
-  }
+  }, 500);
 
 var http = require("http");
 
