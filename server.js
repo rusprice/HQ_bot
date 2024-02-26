@@ -13,7 +13,7 @@ function joinGame(myid) {
   const userId = myid || getRandomIntInclusive(1, 100000);
   console.log("userId", userId);
   const ws = new WebSocket("wss://staging.question.house/ws", {
-    headers: { "authorization": userId },
+    headers: {},
   });
 
   ws.userId = userId;
