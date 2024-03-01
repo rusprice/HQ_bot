@@ -12,7 +12,7 @@ var globalCount = 0;
 function joinGame(myid) {
   return function() {
 
-    if (globalCount > 69)  return;
+    if (globalCount > 115)  return;
 
   const userId = myid || getRandomIntInclusive(1, 100000);
   console.log("userId", userId);
@@ -51,7 +51,7 @@ function joinGame(myid) {
       console.log(data);
     }
 
-    if (!["question", "questionClosed", "questionResult", "questionFinished", "dynamicPot", "interaction", "gameStatus", "broadcastStats"].includes(message.type)) console.log(message);
+    if (!["question", "questionClosed", "questionResult", "questionSummary", "questionFinished", "dynamicPot", "interaction", "gameStatus", "broadcastStats", "submittedAnswer", "winners", "postGame"].includes(message.type)) console.log(message);
 
     if (message.type == "question") {
       ws.send(
