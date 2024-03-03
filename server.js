@@ -24,18 +24,23 @@ function joinGame(myid) {
 
   ws.on("error", function (e) {
     globalCount--;
+    clearInterval(ws.pInterval);
     console.log("socket error", e);
     setTimeout(joinGame(ws.userId), 1000);
   });
 
   ws.on("close", function (ree) {
     globalCount--;
+    clearInterval(ws.pInterval);
     console.log("socket close", ree);
     setTimeout(joinGame(ws.userId), 1000);
   });
 
   ws.on("open", function open() {
     globalCount++;
+    ws.pInterval = setInterval(() => {
+      e.ping()
+    }, 4000);
     ws.send(
       JSON.stringify({
         type: "subscribe",
