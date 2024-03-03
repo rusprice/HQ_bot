@@ -12,7 +12,7 @@ var globalCount = 0;
 function joinGame(myid) {
   return function() {
 
-    if (globalCount > 115)  return;
+    if (globalCount > 75)  return;
 
   const userId = myid || getRandomIntInclusive(1, 100000);
   console.log("userId", userId);
